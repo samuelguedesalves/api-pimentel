@@ -10,7 +10,7 @@ class PostController {
 
   /*
     POSTS LISTAGE
-    
+
     Method: GET - http://domain.com/posts/1
 
     A listagem de posts tem o numero máximo de posts por página de 8
@@ -23,13 +23,24 @@ class PostController {
     }
 
     const posts = await Post.query().orderBy('id', 'desc').paginate(page, 8);
-    
+
     return posts;
+  }
+
+  async findByPostId ({ params, response }) {
+    const postId = params.post_id;
+
+    if(!postId){
+      return response.status(400).json({ error: 'invalid post' });
+    }
+
+    const post = await Post.findBy('id', postId);
+    return response.status(200).json(post);
   }
 
   /*
     CREATE NEW POST
-    
+
     Method: POST - http://domain.com/posts
 
     A criação de post possui como entrada de parametros:
@@ -117,7 +128,7 @@ class PostController {
 
     try{
       await Post.query().where('id', id).delete();
-  
+
       return response.status( 200 );
     } catch {
       return response.status(400).json({ error: 'Error in post destroy.' });

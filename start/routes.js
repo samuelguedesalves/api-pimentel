@@ -22,6 +22,9 @@ const Route = use('Route')
 Route.get('/posts', 'PostController.index');
 Route.get('/posts/:page', 'PostController.index');
 
+// BUSCA DE UM UNICO POST
+Route.get('/post/:post_id', 'PostController.findByPostId');
+
 // CRIAÇÃO DE POSTS
 Route.post('/posts', 'PostController.store');
 
